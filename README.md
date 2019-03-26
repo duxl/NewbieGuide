@@ -12,7 +12,7 @@ allprojects {
 
 ###### 2、在app的build.gradle中添加如下依赖
 ```xml
-dependencies {  
-	implementation 'com.github.duxl:NewbieGuide:1.0.0'
+implementation ('com.github.duxl:NewbieGuide:1.0.0') {
+	exclude group: 'com.android.support'
 }
 ```
