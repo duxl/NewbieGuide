@@ -42,7 +42,47 @@ NewbieGuideManager(@NonNull View customView, Activity activity)
 
 ###### 设置高亮区域样式，支持：RECT矩形、CIRCLE圆形、OVA椭圆（仅对自动创建蒙层有效）
 ```java
-style(NewbieGuideView.Style style)
+NewbieGuideManager style(NewbieGuideView.Style style)
+```
+
+###### 设置高亮区域上下左右间距（仅对自动创建蒙层有效）
+```java
+NewbieGuideManager padding(int left, int top, int right, int bottom)
+```
+
+###### 设置蒙层背景颜色（仅对自动创建蒙层有效）
+```java
+NewbieGuideManager bgColor(@ColorInt int color)
+```
+
+###### 在蒙层上面添加view，position用于指定添加的view位于高亮区域的位置（仅对自动创建蒙层有效）
+```java
+NewbieGuideManager addView(View view, Position position, int xOffset, int yOffset)
+```
+
+###### 点击蒙层是否自动消失，默认false
+```java
+NewbieGuideManager clickAutoMissing(boolean hide)
+```
+
+###### 取消蒙层
+```java
+void missing(OnMissingListener listener)
+```
+
+###### 设置蒙层消失监听
+```java
+void setOnMissingListener(OnMissingListener listener)
+```
+
+###### 显示蒙层
+```java
+void show()
+```
+
+###### 显示蒙层
+```java
+boolean isShowing()
 ```
 
 
