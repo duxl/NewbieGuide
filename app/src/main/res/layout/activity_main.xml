@@ -19,8 +19,8 @@
         android:id="@+id/btn2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
         android:text="显示新手引导【圆形】" />
 
     <Button
@@ -28,6 +28,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="显示新手引导【椭圆】" />
+
+    <Button
+        android:id="@+id/btn4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:text="自定义" />
 
 
 

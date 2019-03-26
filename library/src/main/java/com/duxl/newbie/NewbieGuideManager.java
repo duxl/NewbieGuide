@@ -20,7 +20,8 @@ public class NewbieGuideManager implements View.OnClickListener {
 
     private Activity mActivity;
     private FrameLayout mDecorView;
-    private FrameLayout mFlNewbieGuide;
+    private FrameLayout mFlContainer;
+    private View mCustomView;
     private View[] mViews;
     private NewbieGuideView.Style mStyle = NewbieGuideView.Style.CIRCLE;
     private int[] mPaddding = new int[4];
@@ -28,6 +29,7 @@ public class NewbieGuideManager implements View.OnClickListener {
     private int mBgColor = 0;
     private List<AddView> mAddViews = new ArrayList<>();
     private OnMissingListener mOnMissingListener;
+    private boolean mIsShowing;
 
     /**
      * 构造函数
@@ -50,7 +52,7 @@ public class NewbieGuideManager implements View.OnClickListener {
     public NewbieGuideManager(@NonNull @LayoutRes int layoutResId, Activity activity) {
         this(activity);
         View view = LayoutInflater.from(activity).inflate(layoutResId, null);
-        mFlNewbieGuide.addView(view);
+        mCustomView = view;
     }
 
     /**
@@ -60,16 +62,16 @@ public class NewbieGuideManager implements View.OnClickListener {
      */
     public NewbieGuideManager(@NonNull View customView, Activity activity) {
         this(activity);
-        mFlNewbieGuide.addView(customView);
+        mCustomView = customView;
     }
 
 
     private NewbieGuideManager(Activity activity) {
         this.mActivity = activity;
         mDecorView = (FrameLayout) mActivity.getWindow().getDecorView();
-        mFlNewbieGuide = new FrameLayout(activity);
-        mFlNewbieGuide.setOnClickListener(this);
-        mDecorView.addView(mFlNewbieGuide);
+        mFlContainer = new FrameLayout(activity);
+        mFlContainer.setOnClickListener(this);
+        mDecorView.addView(mFlContainer);
     }
 
     /**
@@ -98,7 +100,7 @@ public class NewbieGuideManager implements View.OnClickListener {
      * @param bottom
      * @return
      */
-    public NewbieGuideManager paddint(int left, int top, int right, int bottom) {
+    public NewbieGuideManager padding(int left, int top, int right, int bottom) {
         mPaddding[0] = left;
         mPaddding[1] = top;
         mPaddding[2] = right;
@@ -158,6 +160,12 @@ public class NewbieGuideManager implements View.OnClickListener {
      * @return
      */
     public NewbieGuideManager show() {
+        if(mCustomView != null) {
+            mFlContainer.addView(mCustomView);
+            mIsShowing = true;
+            return this;
+        }
+
         mDecorView.post(new Runnable() {
             @Override
             public void run() {
@@ -165,11 +173,11 @@ public class NewbieGuideManager implements View.OnClickListener {
                 guideView.setShowyViews(mViews);
                 guideView.setStyle(mStyle);
                 guideView.setPadding(mPaddding[0], mPaddding[1], mPaddding[2], mPaddding[3]);
-                mFlNewbieGuide.addView(guideView);
+                mFlContainer.addView(guideView);
                 if(mBgColor != 0) {
                     guideView.setBgColor(mBgColor);
                 }
-
+                mIsShowing = true;
                 addViews(guideView);
             }
         });
@@ -204,7 +212,7 @@ public class NewbieGuideManager implements View.OnClickListener {
             }
             layoutParams.leftMargin += addView.xOffset;
             layoutParams.topMargin += addView.yOffset;
-            mFlNewbieGuide.addView(addView.view, layoutParams);
+            mFlContainer.addView(addView.view, layoutParams);
         }
     }
 
@@ -219,14 +227,23 @@ public class NewbieGuideManager implements View.OnClickListener {
      * 消失
      */
     public void missing() {
-        if(mFlNewbieGuide != null) {
-            mDecorView.removeView(mFlNewbieGuide);
-            mFlNewbieGuide = null;
+        if(mFlContainer != null) {
+            mDecorView.removeView(mFlContainer);
+            mFlContainer = null;
 
             if(mOnMissingListener != null) {
                 mOnMissingListener.onMissing();
             }
         }
+        mIsShowing = false;
+    }
+
+    /**
+     * 蒙层是否显示
+     * @return
+     */
+    public boolean isShowing() {
+        return mIsShowing;
     }
 
     private class AddView {
