@@ -107,6 +107,20 @@ public class NewbieGuideView extends View {
         rect.top += getPaddingTop();
         rect.right += getPaddingRight();
         rect.bottom += getPaddingBottom();
+
+        if(mStyle == Style.CIRCLE) { // 如果是圆
+            int width = rect.right - rect.left;
+            int height = rect.bottom - rect.top;
+
+            if(width > height) {
+                rect.top -= (width - height) / 2;
+                rect.bottom += (width - height) / 2;
+            } else {
+                rect.left -= (height - width) / 2;
+                rect.right += (height - width) / 2;
+            }
+        }
+
         return rect;
     }
 
