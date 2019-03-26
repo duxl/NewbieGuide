@@ -23,6 +23,8 @@ NewbieGuideManager newbieGuideManager = new NewbieGuideManager(activity, views);
 newbieGuideManager.show();
 ```
 
+#### 使用示例 [MainActivity](/app/src/main/java/com/duxl/newbie/demo/MainActivity.java "点击查看源码")
+
 # API介绍
 ### 构造函数 
 ###### 自动创建蒙层，并将指定的views高亮显示
