@@ -80,7 +80,7 @@ void setOnMissingListener(OnMissingListener listener)
 void show()
 ```
 
-###### 显示蒙层
+###### 蒙层是否显示
 ```java
 boolean isShowing()
 ```
