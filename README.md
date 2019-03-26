@@ -21,9 +21,9 @@ implementation ('com.github.duxl:NewbieGuide:v1.0.0') {
 
 ###### 3、在Activity创建并显示
 ```java
-NewbieGuideManager newbieGuideManager = new NewbieGuideManager(activity, views);
-newbieGuideManager.clickAutoMissing(true);
-newbieGuideManager.show();
+new NewbieGuideManager(activity, views)
+	.clickAutoMissing(true);
+	.show();
 ```
 
 #### 使用示例 [MainActivity](/app/src/main/java/com/duxl/newbie/demo/MainActivity.java "点击查看源码")
