@@ -22,7 +22,7 @@ implementation ('com.github.duxl:NewbieGuide:v1.0.0') {
 ###### 3、在Activity创建并显示
 ```java
 new NewbieGuideManager(activity, views)
-	.clickAutoMissing(true);
+	.clickAutoMissing(true)
 	.show();
 ```
 
