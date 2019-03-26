@@ -24,6 +24,7 @@ newbieGuideManager.show();
 ```
 
 #### 使用示例 [MainActivity](/app/src/main/java/com/duxl/newbie/demo/MainActivity.java "点击查看源码")
+![][/app/pics/demo.gif]
 
 # API介绍
 ### 构造函数 
