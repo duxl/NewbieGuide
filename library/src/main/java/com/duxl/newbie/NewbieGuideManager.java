@@ -2,6 +2,7 @@ package com.duxl.newbie;
 
 import android.app.Activity;
 import android.graphics.Rect;
+import android.support.annotation.ColorInt;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -24,7 +25,9 @@ public class NewbieGuideManager implements View.OnClickListener {
     private NewbieGuideView.Style mStyle = NewbieGuideView.Style.CIRCLE;
     private int[] mPaddding = new int[4];
     private boolean mClickMissing = false;
+    private int mBgColor = 0;
     private List<AddView> mAddViews = new ArrayList<>();
+    private OnMissingListener mOnMissingListener;
 
     /**
      * 构造函数
@@ -70,6 +73,14 @@ public class NewbieGuideManager implements View.OnClickListener {
     }
 
     /**
+     * 设置高亮取消监听
+     * @param listener
+     */
+    public void setOnMissingListener(OnMissingListener listener) {
+        this.mOnMissingListener = listener;
+    }
+
+    /**
      * 设置高亮样式
      * @param style
      * @return
@@ -103,6 +114,16 @@ public class NewbieGuideManager implements View.OnClickListener {
      */
     public NewbieGuideManager clickAutoMissing(boolean hide) {
         mClickMissing = hide;
+        return this;
+    }
+
+    /**
+     * 设置背景颜色
+     * @param color
+     * @return
+     */
+    public NewbieGuideManager bgColor(@ColorInt int color) {
+        mBgColor = color;
         return this;
     }
 
@@ -145,6 +166,9 @@ public class NewbieGuideManager implements View.OnClickListener {
                 guideView.setStyle(mStyle);
                 guideView.setPadding(mPaddding[0], mPaddding[1], mPaddding[2], mPaddding[3]);
                 mFlNewbieGuide.addView(guideView);
+                if(mBgColor != 0) {
+                    guideView.setBgColor(mBgColor);
+                }
 
                 addViews(guideView);
             }
@@ -198,6 +222,10 @@ public class NewbieGuideManager implements View.OnClickListener {
         if(mFlNewbieGuide != null) {
             mDecorView.removeView(mFlNewbieGuide);
             mFlNewbieGuide = null;
+
+            if(mOnMissingListener != null) {
+                mOnMissingListener.onMissing();
+            }
         }
     }
 
@@ -217,5 +245,9 @@ public class NewbieGuideManager implements View.OnClickListener {
 
     public enum Position {
         Left, Top, Right, Bottom
+    }
+
+    public interface OnMissingListener {
+        void onMissing();
     }
 }

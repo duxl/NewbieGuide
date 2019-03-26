@@ -7,6 +7,8 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.view.View;
 
 /**
@@ -19,6 +21,7 @@ public class NewbieGuideView extends View {
     private Rect mShowyRect; // 高亮区域
     private View[] mShowyViews; // 需要高亮的视图
     private Style mStyle;
+    private int mBgColor = Color.parseColor("#B2222222");
 
     public NewbieGuideView(Activity activity) {
         super(activity);
@@ -32,6 +35,10 @@ public class NewbieGuideView extends View {
     public void setStyle(Style style) {
         this.mStyle = style;
         locationShowy();
+    }
+
+    public void setBgColor(@ColorInt int color) {
+        this.mBgColor = color;
     }
 
     public enum Style {
@@ -153,7 +160,7 @@ public class NewbieGuideView extends View {
                 path.addOval(new RectF(drawRect), Path.Direction.CCW);
                 canvas.clipPath(path, Region.Op.DIFFERENCE);
             }
-            canvas.drawColor(Color.parseColor("#B2222222")); // 将裁剪后，剩余其它部分用阴影颜色填充
+            canvas.drawColor(mBgColor); // 将裁剪后，剩余其它部分用阴影颜色填充
             canvas.restore();
         }
     }
