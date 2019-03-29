@@ -46,7 +46,7 @@ NewbieGuideManager(@NonNull @LayoutRes int layoutResId, Activity activity)
 ```java
 NewbieGuideManager(@NonNull View customView, Activity activity)
 ```
-
+### 成员函数 
 ###### 设置高亮区域样式，支持：RECT矩形、CIRCLE圆形、OVA椭圆（仅对自动创建蒙层有效）
 ```java
 NewbieGuideManager style(NewbieGuideView.Style style)
