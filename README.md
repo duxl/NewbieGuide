@@ -14,7 +14,7 @@ allprojects {
 
 ###### 2、在app的build.gradle中添加如下依赖
 ```xml
-implementation ('com.github.duxl:NewbieGuide:v1.0.0') {
+implementation ('com.github.duxl:NewbieGuide:v1.1.0') {
 	exclude group: 'com.android.support'
 }
 ```
@@ -28,7 +28,9 @@ new NewbieGuideManager(activity, views)
 
 #### 使用示例 [MainActivity](/app/src/main/java/com/duxl/newbie/demo/MainActivity.java "点击查看源码")
 
+#### demo下载 [demo.apk](/app/release/app-release.apk "下载")
 ![demo.gif](/app/pics/demo.gif)
+
 
 # API介绍
 ### 构造函数 
@@ -47,7 +49,7 @@ NewbieGuideManager(@NonNull @LayoutRes int layoutResId, Activity activity)
 NewbieGuideManager(@NonNull View customView, Activity activity)
 ```
 ### 成员函数 
-###### 设置高亮区域样式，支持：RECT矩形、CIRCLE圆形、OVA椭圆（仅对自动创建蒙层有效）
+###### 设置高亮区域样式，支持：RECT矩形、CIRCLE圆形、OVA椭圆、NONE无（仅对自动创建蒙层有效）
 ```java
 NewbieGuideManager style(NewbieGuideView.Style style)
 ```
@@ -69,7 +71,7 @@ NewbieGuideManager addView(View view, Position position, int xOffset, int yOffse
 
 ###### 点击蒙层是否自动消失，默认false
 ```java
-NewbieGuideManager clickAutoMissing(boolean hide)
+NewbieGuideManager setClickAutoMissing(boolean hide)
 ```
 
 ###### 取消蒙层

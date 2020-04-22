@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:background="#FF0000"
-    android:layout_height="wrap_content">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#7F000FFF"
+    android:padding="15dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
+        android:src="@mipmap/newbie_arrow" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
         android:layout_marginTop="10dp"
-        android:src="@mipmap/newbie_arrow"/>
+        android:layout_marginBottom="10dp"
+        android:text="@string/msg"/>
 
     <Button
         android:id="@+id/btnClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="点击我消失"/>
+        android:text="点击我消失" />
 
 </LinearLayout>

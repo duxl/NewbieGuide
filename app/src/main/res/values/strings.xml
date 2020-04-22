@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">NewbieGuide</string>
+    <string name="msg">我是添加的view\n显示位置相对于高亮区域\n可以通过position和padding调整</string>
 </resources>

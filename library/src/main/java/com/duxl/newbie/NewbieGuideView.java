@@ -8,7 +8,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
 import android.view.View;
 
 /**
@@ -30,6 +29,7 @@ public class NewbieGuideView extends View {
 
     /**
      * 高亮部分呈现的形状
+     *
      * @param style
      */
     public void setStyle(Style style) {
@@ -41,17 +41,21 @@ public class NewbieGuideView extends View {
         this.mBgColor = color;
     }
 
+    /*** 高亮区域样式 */
     public enum Style {
-        /** 圆圈 */
+        /*** 圆圈 */
         CIRCLE,
-        /** 矩形 */
+        /*** 矩形 */
         RECT,
-        /** 椭圆 */
-        OVA
+        /*** 椭圆 */
+        OVA,
+        /*** 不高亮 */
+        NONE
     }
 
     /**
      * 设置需要高亮的视图
+     *
      * @param views
      */
     public void setShowyViews(View... views) {
@@ -63,10 +67,10 @@ public class NewbieGuideView extends View {
      * 确定高亮区域位置
      */
     private void locationShowy() {
-        if(mStyle != null && mShowyViews != null) {
-            for (int i=0; i<mShowyViews.length; i++) {
+        if (mStyle != null && mShowyViews != null) {
+            for (int i = 0; i < mShowyViews.length; i++) {
                 View v = mShowyViews[i];
-                if(i == 0) {
+                if (i == 0) {
                     mShowyRect = new Rect();
                     v.getGlobalVisibleRect(mShowyRect);
                 } else {
@@ -75,15 +79,15 @@ public class NewbieGuideView extends View {
                     if (rect.left < mShowyRect.left) {
                         mShowyRect.left = rect.left;
                     }
-                    if(rect.top < mShowyRect.top) {
+                    if (rect.top < mShowyRect.top) {
                         mShowyRect.top = rect.top;
                     }
 
-                    if(rect.right > mShowyRect.right) {
+                    if (rect.right > mShowyRect.right) {
                         mShowyRect.right = rect.right;
                     }
 
-                    if(rect.bottom > mShowyRect.bottom) {
+                    if (rect.bottom > mShowyRect.bottom) {
                         mShowyRect.bottom = rect.bottom;
                     }
                 }
@@ -94,6 +98,7 @@ public class NewbieGuideView extends View {
 
     /**
      * 视图高亮显示区域的Padding，及实际显示高亮区域要比{@link #setShowyViews(View...)}给定的视图要大
+     *
      * @param left
      * @param top
      * @param right
@@ -106,6 +111,7 @@ public class NewbieGuideView extends View {
 
     /**
      * 获取高亮位置区域
+     *
      * @return
      */
     public Rect getShowyRect() {
@@ -115,11 +121,11 @@ public class NewbieGuideView extends View {
         rect.right += getPaddingRight();
         rect.bottom += getPaddingBottom();
 
-        if(mStyle == Style.CIRCLE) { // 如果是圆
+        if (mStyle == Style.CIRCLE) { // 如果是圆
             int width = rect.right - rect.left;
             int height = rect.bottom - rect.top;
 
-            if(width > height) {
+            if (width > height) {
                 rect.top -= (width - height) / 2;
                 rect.bottom += (width - height) / 2;
             } else {
@@ -134,7 +140,7 @@ public class NewbieGuideView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if(mShowyRect != null) {
+        if (mShowyRect != null) {
             canvas.save();
             Rect drawRect = new Rect(mShowyRect);
             drawRect.left -= getPaddingLeft();
@@ -142,10 +148,10 @@ public class NewbieGuideView extends View {
             drawRect.right += getPaddingRight();
             drawRect.bottom += getPaddingBottom();
 
-            if(mStyle == Style.RECT) { // 裁剪矩形
+            if (mStyle == Style.RECT) { // 裁剪矩形
                 canvas.clipRect(drawRect, Region.Op.DIFFERENCE);
 
-            } else if(mStyle == Style.CIRCLE) { // 裁剪圆形
+            } else if (mStyle == Style.CIRCLE) { // 裁剪圆形
                 Path path = new Path();
                 int rectWidth = drawRect.right - drawRect.left;
                 int rectHeight = drawRect.bottom - drawRect.top;
@@ -155,7 +161,7 @@ public class NewbieGuideView extends View {
                 path.addCircle(x, y, radius, Path.Direction.CCW);
                 canvas.clipPath(path, Region.Op.DIFFERENCE);
 
-            } else if(mStyle == Style.OVA) { // 剪切椭圆
+            } else if (mStyle == Style.OVA) { // 剪切椭圆
                 Path path = new Path();
                 path.addOval(new RectF(drawRect), Path.Direction.CCW);
                 canvas.clipPath(path, Region.Op.DIFFERENCE);
