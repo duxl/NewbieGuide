@@ -78,28 +78,29 @@ public class NewbieGuideManager {
         mFlContainer.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                boolean dispatched = false;
-                if(mShowyClickEnable && event.getAction() == MotionEvent.ACTION_DOWN) {
-                    int rawX = (int) event.getRawX();
-                    int rawY = (int) event.getRawY();
-                    for (int i = 0; i < mFlContainer.getChildCount(); i++) {
-                        View child = mFlContainer.getChildAt(i);
-                        if (child instanceof NewbieGuideView) {
-                            NewbieGuideView newbieGuideView = (NewbieGuideView) child;
-                            Rect showyRect = newbieGuideView.getShowyRect();
-                            boolean in = showyRect.contains(rawX, rawY);
-                            dispatched = !in;
-                            System.out.println("NewbieGuideManager.onTouch: in=" + in);
-                            break;
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if(mClickMissing) {
+                        missing();
+                    }
+
+                    if(mShowyClickEnable) {
+                        int rawX = (int) event.getRawX();
+                        int rawY = (int) event.getRawY();
+                        for (int i = 0; i < mFlContainer.getChildCount(); i++) {
+                            View child = mFlContainer.getChildAt(i);
+                            if (child instanceof NewbieGuideView) {
+                                NewbieGuideView newbieGuideView = (NewbieGuideView) child;
+                                Rect showyRect = newbieGuideView.getShowyRect();
+                                boolean in = showyRect.contains(rawX, rawY);
+                                if (in) {
+                                    return false;
+                                }
+                            }
                         }
                     }
                 }
 
-                if(mClickMissing && event.getAction() == MotionEvent.ACTION_DOWN) {
-                    missing();
-                }
-
-                return dispatched;
+                return true;
             }
         });
         mDecorView.addView(mFlContainer);
