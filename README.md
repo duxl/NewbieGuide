@@ -29,8 +29,6 @@ new NewbieGuideManager(activity, views)
 #### 使用示例 [MainActivity](/app/src/main/java/com/duxl/newbie/demo/MainActivity.java "点击查看源码")
 
 #### demo下载 [demo.apk](/app/release/app-release.apk "下载")
-![demo.gif](/app/pics/demo.gif)
-
 
 # API介绍
 ### 构造函数 
