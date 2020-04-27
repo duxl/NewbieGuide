@@ -35,6 +35,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private NewbieGuideManager.Position mPosition = NewbieGuideManager.Position.ToLeft;
     private NewbieGuideManager.Positions mPositions;
 
+    private Button btnPadding;
+    private TextView tvPadding;
+    private int mPadding = 0;
+
     private Button btnShow;
     private Button btnShowCustom;
     private Button btnAnchor;
@@ -139,6 +143,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             showDialog(btnPosition.getText(), items, values, tvPosition, 4);
         });
 
+        btnPadding = findViewById(R.id.btn_padding);
+        tvPadding = findViewById(R.id.tv_padding);
+        btnPadding.setOnClickListener(v -> {
+            String[] items = {"0dp", "10dp", "20dp", "30dp"};
+            Integer[] values = {
+                    0,
+                    dip2px(10),
+                    dip2px(20),
+                    dip2px(30)
+            };
+            showDialog(btnPadding.getText(), items, values, tvPadding, 5);
+        });
+
         btnShow = findViewById(R.id.btn_show);
         btnShow.setOnClickListener(this);
 
@@ -163,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void show() {
         mNewbieGuideManager = new NewbieGuideManager(this, btnAnchor);
-        //mNewbieGuideManager.padding(20, 20, 20, 20);
+        mNewbieGuideManager.padding(mPadding, mPadding, mPadding, mPadding);
         mNewbieGuideManager.style(mStyle);
         mNewbieGuideManager.bgColor(mBgColor);
         mNewbieGuideManager.setShowyClickEnable(mShowyClickEnable);
@@ -223,9 +240,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     mPositions = (NewbieGuideManager.Positions) values[which];
                     mPosition = null;
                 }
+            } else if(type == 5) {
+                mPadding = (Integer) values[which];
             }
 
         });
         builder.create().show();
+    }
+
+    /**
+     * 将dip或dp值转换为px值，保证尺寸大小不变
+     *
+     * @param dipValue （DisplayMetrics类中属性density）
+     * @return
+     */
+    public int dip2px(float dipValue) {
+        final float scale = getResources().getDisplayMetrics().density;
+        return (int) (dipValue * scale + 0.5f);
     }
 }
