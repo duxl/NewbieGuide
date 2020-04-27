@@ -14,7 +14,7 @@ allprojects {
 
 ###### 2、在app的build.gradle中添加如下依赖
 ```xml
-implementation ('com.github.duxl:NewbieGuide:v1.1.0') {
+implementation ('com.github.duxl:NewbieGuide:v1.1.2') {
 	exclude group: 'com.android.support'
 }
 ```
@@ -69,7 +69,16 @@ NewbieGuideManager bgColor(@ColorInt int color)
 NewbieGuideManager addView(View view, Position position, int xOffset, int yOffset)
 ```
 
+###### 在蒙层上面添加view，positions用于指定添加的view位于高亮区域的位置（仅对自动创建蒙层有效）
+
+与position相比，positions可以同时指定多个位置参数，使用Positions.build(Position... values)
+
+```java
+NewbieGuideManager addView(View view, Positions positions, int xOffset, int yOffset)
+```
+
 ###### 点击蒙层是否自动消失，默认false
+
 ```java
 NewbieGuideManager setClickAutoMissing(boolean hide)
 ```
@@ -94,7 +103,16 @@ void show()
 boolean isShowing()
 ```
 
+------
 
+###### position参数解释
 
-
-
+| Position.ToLeft       | 添加View的右边在高亮区域的左边     |
+| :-------------------- | ---------------------------------- |
+| **Position.ToTop**    | **添加View的下边在高亮区域的上边** |
+| **Position.ToRight**  | **添加View的左边在高亮区域的右边** |
+| **Position.ToBottom** | **添加View的上边在高亮区域的下边** |
+| Position.AlignLeft    | 添加View的左边与高亮区域的左边对齐 |
+| Position.AlignTop     | 添加View的上边与高亮区域的上边对齐 |
+| Position.AlignRight   | 添加View的右边与高亮区域的右边对齐 |
+| Position.AlignBottom  | 添加View的下边与高亮区域的下边对齐 |

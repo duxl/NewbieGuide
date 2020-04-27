@@ -78,11 +78,8 @@ public class NewbieGuideManager {
         mFlContainer.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                boolean isConsumed = true;
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if(mClickMissing) {
-                        missing();
-                    }
-
                     if(mShowyClickEnable) {
                         int rawX = (int) event.getRawX();
                         int rawY = (int) event.getRawY();
@@ -93,14 +90,19 @@ public class NewbieGuideManager {
                                 Rect showyRect = newbieGuideView.getShowyRect();
                                 boolean in = showyRect.contains(rawX, rawY);
                                 if (in) {
-                                    return false;
+                                    isConsumed = false;
+                                    break;
                                 }
                             }
                         }
                     }
+
+                    if(mClickMissing) {
+                        missing();
+                    }
                 }
 
-                return true;
+                return isConsumed;
             }
         });
         mDecorView.addView(mFlContainer);
