@@ -18,6 +18,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tvStyle;
     private NewbieGuideView.Style mStyle = NewbieGuideView.Style.RECT;
 
+    private Button btnRectRadius;
+    private TextView tvRectRadius;
+    private int mRectRadius = 0;
+
     private Button btnBgColor;
     private TextView tvBgColor;
     private int mBgColor = Color.parseColor("#7FFF0000");
@@ -53,11 +57,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnStyle = findViewById(R.id.btn_style);
         tvStyle = findViewById(R.id.tv_style);
         btnStyle.setOnClickListener(v -> {
-            String[] items = {"圆圈", "矩形", "椭圆", "无高亮"};
+            String[] items = {
+                    "矩形",
+
+                    "圆角矩形（内切）",
+                    "圆角矩形（外接）",
+
+                    "圆圈（内切）",
+                    "圆圈（外接）",
+
+                    "椭圆（内切）",
+                    "椭圆（外接）",
+
+                    "无高亮"
+            };
             NewbieGuideView.Style[] values = {
-                    NewbieGuideView.Style.CIRCLE,
                     NewbieGuideView.Style.RECT,
-                    NewbieGuideView.Style.OVA,
+
+                    NewbieGuideView.Style.ROUND_RECT,
+                    NewbieGuideView.Style.ROUND_RECT_OUT,
+
+                    NewbieGuideView.Style.CIRCLE,
+                    NewbieGuideView.Style.CIRCLE_OUT,
+
+                    NewbieGuideView.Style.OVAL,
+                    NewbieGuideView.Style.OVAL_OUT,
+
                     NewbieGuideView.Style.NONE
             };
             showDialog(btnStyle.getText(), items, values, tvStyle, 0);
@@ -156,6 +181,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             showDialog(btnPadding.getText(), items, values, tvPadding, 5);
         });
 
+        btnRectRadius = findViewById(R.id.btn_rect_radius);
+        tvRectRadius = findViewById(R.id.tv_rect_radius);
+        btnRectRadius.setOnClickListener(v -> {
+            String[] items = {"0dp", "5dp", "10dp", "15dp"};
+            Integer[] values = {
+                    0,
+                    dip2px(5),
+                    dip2px(10),
+                    dip2px(15)
+            };
+            showDialog(btnRectRadius.getText(), items, values, tvRectRadius, 6);
+        });
+
         btnShow = findViewById(R.id.btn_show);
         btnShow.setOnClickListener(this);
 
@@ -182,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mNewbieGuideManager = new NewbieGuideManager(this, btnAnchor);
         mNewbieGuideManager.padding(mPadding, mPadding, mPadding, mPadding);
         mNewbieGuideManager.style(mStyle);
+        mNewbieGuideManager.setRoundRectRadius(mRectRadius);
         mNewbieGuideManager.bgColor(mBgColor);
         mNewbieGuideManager.setShowyClickEnable(mShowyClickEnable);
         mNewbieGuideManager.setClickAutoMissing(mAutoMiss);
@@ -226,6 +265,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if (type == 0) {
                 mStyle = (NewbieGuideView.Style) values[which];
+                if(which == 1 || which == 2) {
+                    tvRectRadius.setEnabled(true);
+                    btnRectRadius.setEnabled(true);
+                } else {
+                    tvRectRadius.setEnabled(false);
+                    btnRectRadius.setEnabled(false);
+                    tvRectRadius.setText("0dp");
+                    mRectRadius = 0;
+                }
             } else if (type == 1) {
                 mBgColor = (Integer) values[which];
             } else if (type == 2) {
@@ -240,8 +288,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     mPositions = (NewbieGuideManager.Positions) values[which];
                     mPosition = null;
                 }
-            } else if(type == 5) {
+            } else if (type == 5) {
                 mPadding = (Integer) values[which];
+            } else if (type == 6) {
+                mRectRadius = (Integer) values[which];
             }
 
         });

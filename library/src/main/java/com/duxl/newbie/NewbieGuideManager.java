@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * create by duxl 2019/3/22 0022
- * 新手引导管理
+ * 新手蒙层引导管理
  */
 public class NewbieGuideManager {
 
@@ -25,6 +25,7 @@ public class NewbieGuideManager {
     private View mCustomView;
     private View[] mViews;
     private NewbieGuideView.Style mStyle = NewbieGuideView.Style.NONE;
+    private int mRoundRectRadius;
     private int[] mPaddding = new int[4];
     private boolean mClickMissing = false;
     private int mBgColor = 0;
@@ -50,7 +51,7 @@ public class NewbieGuideManager {
     /**
      * 构造函数
      *
-     * @param layoutResId 自定义引导布局
+     * @param layoutResId 自定义蒙层布局
      * @param activity    Activity
      */
     public NewbieGuideManager(@NonNull @LayoutRes int layoutResId, Activity activity) {
@@ -62,7 +63,7 @@ public class NewbieGuideManager {
     /**
      * 构造函数
      *
-     * @param customView 自定义引导视图
+     * @param customView 自定义蒙层视图
      * @param activity   Activity
      */
     public NewbieGuideManager(@NonNull View customView, Activity activity) {
@@ -125,6 +126,16 @@ public class NewbieGuideManager {
      */
     public NewbieGuideManager style(NewbieGuideView.Style style) {
         mStyle = style;
+        return this;
+    }
+
+    /**
+     * 圆角矩形样式的圆角大小，只有 {@link NewbieGuideView#setStyle(NewbieGuideView.Style)} 传 {@link NewbieGuideView.Style#ROUND_RECT} 和 {@link NewbieGuideView.Style#ROUND_RECT_OUT} 才生效
+     *
+     * @param radius 圆角大小，单位px。默认最大圆角值
+     */
+    public NewbieGuideManager setRoundRectRadius(int radius) {
+        this.mRoundRectRadius = radius;
         return this;
     }
 
@@ -239,8 +250,9 @@ public class NewbieGuideManager {
             @Override
             public void run() {
                 NewbieGuideView guideView = new NewbieGuideView(mActivity);
-                guideView.setShowyViews(mViews);
                 guideView.setStyle(mStyle);
+                guideView.setRoundRectRadius(mRoundRectRadius);
+                guideView.setShowyViews(mViews);
                 guideView.setPadding(mPaddding[0], mPaddding[1], mPaddding[2], mPaddding[3]);
                 mFlContainer.addView(guideView);
                 if (mBgColor != 0) {
@@ -248,6 +260,7 @@ public class NewbieGuideManager {
                 }
                 mIsShowing = true;
                 addViews(guideView);
+                guideView.invalidate();
             }
         });
         return this;
