@@ -31,6 +31,7 @@ public class NewbieGuideManager {
     private int mBgColor = 0;
     private List<AddView> mAddViews = new ArrayList<>();
     private OnMissingListener mOnMissingListener;
+    private View.OnClickListener mOnShowyClickListener;
     private boolean mIsShowing;
     private boolean mShowyClickEnable;
 
@@ -79,9 +80,9 @@ public class NewbieGuideManager {
         mFlContainer.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                boolean isConsumed = true;
-                if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if(mShowyClickEnable) {
+                boolean isConsumed = true; // 事件是否已经处理了
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (mShowyClickEnable) {
                         int rawX = (int) event.getRawX();
                         int rawY = (int) event.getRawY();
                         for (int i = 0; i < mFlContainer.getChildCount(); i++) {
@@ -91,14 +92,17 @@ public class NewbieGuideManager {
                                 Rect showyRect = newbieGuideView.getShowyRect();
                                 boolean in = showyRect.contains(rawX, rawY);
                                 if (in) {
-                                    isConsumed = false;
+                                    if(mOnShowyClickListener != null) {
+                                        mOnShowyClickListener.onClick(v);
+                                    }
+                                    isConsumed = false; // 不处理事件，将事件透传到蒙层下面
                                     break;
                                 }
                             }
                         }
                     }
 
-                    if(mClickMissing) {
+                    if (mClickMissing) {
                         missing();
                     }
                 }
@@ -169,12 +173,25 @@ public class NewbieGuideManager {
     }
 
     /**
-     * 高亮区域是否可点击
-     * @param enable
+     * 设置高亮区域是否可点击
+     *
+     * @param enable 高亮区域是否可点击
      * @return
      */
     public NewbieGuideManager setShowyClickEnable(boolean enable) {
+        return setShowyClickEnable(enable, null);
+    }
+
+    /**
+     * 设置高亮区域是否可点击
+     *
+     * @param enable   高亮区域是否可点击
+     * @param listener 高亮区域点击回调
+     * @return
+     */
+    public NewbieGuideManager setShowyClickEnable(boolean enable, View.OnClickListener listener) {
         mShowyClickEnable = enable;
+        mOnShowyClickListener = listener;
         return this;
     }
 
