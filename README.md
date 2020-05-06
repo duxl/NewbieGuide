@@ -14,7 +14,7 @@ allprojects {
 
 ###### 2、在app的build.gradle中添加如下依赖
 ```xml
-implementation ('com.github.duxl:NewbieGuide:v1.1.2') {
+implementation ('com.github.duxl:NewbieGuide:v1.2.0') {
 	exclude group: 'com.android.support'
 }
 ```
@@ -47,7 +47,7 @@ NewbieGuideManager(@NonNull @LayoutRes int layoutResId, Activity activity)
 NewbieGuideManager(@NonNull View customView, Activity activity)
 ```
 ### 成员函数 
-###### 设置高亮区域样式，支持：RECT矩形、CIRCLE圆形、OVA椭圆、NONE无（仅对自动创建蒙层有效）
+###### 设置高亮区域样式，支持的样式详见下表（仅对自动创建蒙层有效）
 ```java
 NewbieGuideManager style(NewbieGuideView.Style style)
 ```
@@ -114,3 +114,20 @@ boolean isShowing()
 | Position.AlignTop     | 添加View的上边与高亮区域的上边对齐 |
 | Position.AlignRight   | 添加View的右边与高亮区域的右边对齐 |
 | Position.AlignBottom  | 添加View的下边与高亮区域的下边对齐 |
+
+![Position示例](position_introduce.png)
+
+
+
+### Style参数解析
+
+| RECT               | 矩形                 |
+| ------------------ | -------------------- |
+| **ROUND_RECT**     | **圆角矩形（内切）** |
+| **ROUND_RECT_OUT** | **圆角矩形（外接）** |
+| **CIRCLE**         | **圆圈（内切）**     |
+| **CIRCLE_OUT**     | **圆圈（外接）**     |
+| **OVAL**           | **椭圆（内切）**     |
+| **OVAL_OUT**       | **椭圆（外接）**     |
+| **NONE**           | **无**               |
+
