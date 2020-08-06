@@ -81,9 +81,16 @@ NewbieGuideManager addView(View view, Positions positions, int xOffset, int yOff
 NewbieGuideManager setClickAutoMissing(boolean hide)
 ```
 
-###### 取消蒙层
+###### 设置高亮区域点击事件
+
 ```java
-void missing(OnMissingListener listener)
+NewbieGuideManager setClickShowyListener(boolean throughEnable, OnClickListener listener)
+```
+
+###### 取消蒙层
+
+```java
+void missing()
 ```
 
 ###### 设置蒙层消失监听

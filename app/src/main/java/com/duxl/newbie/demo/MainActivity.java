@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button btnStyle;
     private TextView tvStyle;
-    private NewbieGuideView.Style mStyle = NewbieGuideView.Style.RECT;
+    private NewbieGuideView.Style mStyle = NewbieGuideView.Style.CIRCLE_OUT;
 
     private Button btnRectRadius;
     private TextView tvRectRadius;
@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             showCustom();
         }
         if (view == btnAnchor) {
-            Toast.makeText(this, "我是一个按钮", Toast.LENGTH_SHORT).show();
+            view.postDelayed(() -> Toast.makeText(this, "我是一个按钮", Toast.LENGTH_SHORT).show(), 500);
         }
     }
 
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mNewbieGuideManager.style(mStyle);
         mNewbieGuideManager.setRoundRectRadius(mRectRadius);
         mNewbieGuideManager.bgColor(mBgColor);
-        mNewbieGuideManager.setShowyClickEnable(mShowyClickEnable);
+        mNewbieGuideManager.setClickShowyListener(mShowyClickEnable, v -> Toast.makeText(this, "我是高亮区域", Toast.LENGTH_SHORT).show());
         mNewbieGuideManager.setClickAutoMissing(mAutoMiss);
 
         View custom = getLayoutInflater().inflate(R.layout.newbie, null);
@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if (type == 0) {
                 mStyle = (NewbieGuideView.Style) values[which];
-                if(which == 1 || which == 2) {
+                if (which == 1 || which == 2) {
                     tvRectRadius.setEnabled(true);
                     btnRectRadius.setEnabled(true);
                 } else {

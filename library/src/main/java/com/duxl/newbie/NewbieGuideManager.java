@@ -1,5 +1,6 @@
 package com.duxl.newbie;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Rect;
 import android.support.annotation.ColorInt;
@@ -33,7 +34,7 @@ public class NewbieGuideManager {
     private OnMissingListener mOnMissingListener;
     private View.OnClickListener mOnShowyClickListener;
     private boolean mIsShowing;
-    private boolean mShowyClickEnable;
+    private boolean mShowyClickThroughEnable;
 
     /**
      * 构造函数
@@ -73,6 +74,7 @@ public class NewbieGuideManager {
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     private NewbieGuideManager(Activity activity) {
         this.mActivity = activity;
         mDecorView = (FrameLayout) mActivity.getWindow().getDecorView();
@@ -80,24 +82,26 @@ public class NewbieGuideManager {
         mFlContainer.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                boolean isConsumed = true; // 事件是否已经处理了
+                boolean isIntercept = true; // 是否拦截事件
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (mShowyClickEnable) {
-                        int rawX = (int) event.getRawX();
-                        int rawY = (int) event.getRawY();
-                        for (int i = 0; i < mFlContainer.getChildCount(); i++) {
-                            View child = mFlContainer.getChildAt(i);
-                            if (child instanceof NewbieGuideView) {
-                                NewbieGuideView newbieGuideView = (NewbieGuideView) child;
-                                Rect showyRect = newbieGuideView.getShowyRect();
-                                boolean in = showyRect.contains(rawX, rawY);
-                                if (in) {
-                                    if(mOnShowyClickListener != null) {
-                                        mOnShowyClickListener.onClick(v);
-                                    }
-                                    isConsumed = false; // 不处理事件，将事件透传到蒙层下面
-                                    break;
+                    int rawX = (int) event.getRawX();
+                    int rawY = (int) event.getRawY();
+                    for (int i = 0; i < mFlContainer.getChildCount(); i++) {
+                        View child = mFlContainer.getChildAt(i);
+                        if (child instanceof NewbieGuideView) {
+                            NewbieGuideView newbieGuideView = (NewbieGuideView) child;
+                            Rect showyRect = newbieGuideView.getShowyRect();
+                            boolean in = showyRect.contains(rawX, rawY);
+                            if (in) {
+                                if (mShowyClickThroughEnable) {
+                                    isIntercept = false; // 不拦截事件，将事件透传到蒙层下面
                                 }
+
+                                if (mOnShowyClickListener != null) {
+                                    mOnShowyClickListener.onClick(v);
+                                }
+
+                                break;
                             }
                         }
                     }
@@ -107,7 +111,7 @@ public class NewbieGuideManager {
                     }
                 }
 
-                return isConsumed;
+                return isIntercept;
             }
         });
         mDecorView.addView(mFlContainer);
@@ -173,24 +177,24 @@ public class NewbieGuideManager {
     }
 
     /**
-     * 设置高亮区域是否可点击
+     * 设置高亮区域点击事件
      *
-     * @param enable 高亮区域是否可点击
+     * @param throughEnable 点击事件是否穿透蒙层，即点击到蒙层下面的view
      * @return
      */
-    public NewbieGuideManager setShowyClickEnable(boolean enable) {
-        return setShowyClickEnable(enable, null);
+    public NewbieGuideManager setClickShowyListener(boolean throughEnable) {
+        return setClickShowyListener(throughEnable, null);
     }
 
     /**
-     * 设置高亮区域是否可点击
+     * 设置高亮区域点击事件
      *
-     * @param enable   高亮区域是否可点击
-     * @param listener 高亮区域点击回调
+     * @param throughEnable 点击事件是否穿透蒙层，即点击到蒙层下面的view
+     * @param listener      高亮区域点击回调
      * @return
      */
-    public NewbieGuideManager setShowyClickEnable(boolean enable, View.OnClickListener listener) {
-        mShowyClickEnable = enable;
+    public NewbieGuideManager setClickShowyListener(boolean throughEnable, View.OnClickListener listener) {
+        mShowyClickThroughEnable = throughEnable;
         mOnShowyClickListener = listener;
         return this;
     }
